@@ -1,0 +1,1466 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maison Aurelya - Luxury Fashion Boutique</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 100%);
+        }
+
+        .gold-glow {
+            box-shadow: 0 4px 20px rgba(201, 163, 74, 0.3);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #C9A34A;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(201, 163, 74, 0.2);
+        }
+
+        .product-image {
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+
+        .btn-primary {
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(201, 163, 74, 0.4);
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #C9A34A, transparent);
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background-color: #0A0A0A;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 999;
+        }
+
+        .cart-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100%;
+            background-color: #0A0A0A;
+            transition: left 0.3s ease;
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            left: 0;
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            background-color: #C9A34A;
+            color: #0A0A0A;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(201, 163, 74, 0.4);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 2000;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .toast-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        .quick-view-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1500;
+            padding: 20px;
+        }
+
+        .quick-view-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+
+        .countdown-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="font-body"><!-- Cart Overlay -->
+  <div id="cart-overlay" class="cart-overlay"></div><!-- Mobile Menu -->
+  <div id="mobile-menu" class="mobile-menu">
+   <div class="p-6"><button id="close-mobile-menu" class="mb-8 hover:opacity-70 transition-opacity">
+     <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#FAF9F6" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line>
+     </svg></button> <!-- VIP Button in Mobile Menu --> <button id="mobile-vip-btn" onclick="showVipRegistration(); document.getElementById('mobile-menu').classList.remove('active'); document.getElementById('cart-overlay').classList.remove('active');" class="w-full mb-6 flex items-center justify-center gap-2 px-4 py-3 rounded-full transition-all hover:opacity-90" style="background: linear-gradient(135deg, #C9A34A 0%, #d4b55e 100%);">
+     <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+     </svg><span class="font-body text-sm font-bold tracking-wide" style="color: #0A0A0A;">Become VIP Member</span> </button>
+    <nav class="space-y-6"><a href="#collections" class="block font-body text-base" style="color: #FAF9F6;">Collections</a> <a href="#limited-edition" class="block font-body text-base" style="color: #FAF9F6;">Limited Edition</a> <a href="#about" class="block font-body text-base" style="color: #FAF9F6;">About</a> <a href="#appointments" class="block font-body text-base" style="color: #FAF9F6;">Appointments</a> <a href="#contact" class="block font-body text-base" style="color: #FAF9F6;">Contact</a>
+    </nav>
+   </div>
+  </div><!-- Cart Sidebar -->
+  <div id="cart-sidebar" class="cart-sidebar">
+   <div class="p-6">
+    <div class="flex items-center justify-between mb-8">
+     <h3 class="font-display text-2xl font-bold" style="color: #C9A34A;">Shopping Cart</h3><button id="close-cart" class="hover:opacity-70 transition-opacity">
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#FAF9F6" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg></button>
+    </div>
+    <div id="cart-items" class="space-y-4 mb-8"><!-- Cart items will be inserted here -->
+    </div>
+    <div id="cart-empty" class="text-center py-12" style="display: none;">
+     <svg class="w-16 h-16 mx-auto mb-4 opacity-30" viewbox="0 0 24 24" fill="none" stroke="#FAF9F6" stroke-width="1"><circle cx="9" cy="21" r="1"></circle> <circle cx="20" cy="21" r="1"></circle> <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+     </svg>
+     <p class="font-body text-sm" style="color: #8B8780;">Your cart is empty</p>
+    </div>
+    <div id="cart-summary" style="border-top: 1px solid #2a2a2a; padding-top: 24px;"><!-- VIP Card Section in Cart -->
+     <div id="cart-vip-section" class="mb-6 p-4 rounded-lg" style="background-color: #0A0A0A; border: 1px solid #2a2a2a;">
+      <div class="flex items-center justify-between mb-3">
+       <div class="flex items-center gap-2">
+        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect> <line x1="2" y1="10" x2="22" y2="10"></line>
+        </svg><span class="font-body text-sm font-medium" style="color: #FAF9F6;">Privilège Card</span>
+       </div><span id="vip-status-badge" class="font-body text-xs px-2 py-1 rounded hidden" style="background-color: rgba(201, 163, 74, 0.2); color: #C9A34A;">Applied</span>
+      </div><input type="text" id="cart-vip-input" placeholder="Enter card number (optional)" maxlength="14" class="w-full px-3 py-2 font-body text-sm focus:outline-none transition-all" style="background-color: #1a1a1a; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 4px;"> <button onclick="applyVipFromCart()" class="w-full mt-2 py-2 rounded font-body text-xs font-medium tracking-wider transition-all hover:opacity-80" style="background-color: #2a2a2a; color: #C9A34A;"> APPLY BENEFITS </button>
+     </div>
+     <div class="flex justify-between items-center mb-6"><span class="font-body text-base" style="color: #FAF9F6;">Subtotal</span> <span id="cart-total" class="font-display text-xl font-bold" style="color: #C9A34A;">Rp 0</span>
+     </div><button id="checkout-btn" class="w-full py-4 rounded-full font-body text-sm font-medium tracking-wider gold-glow" style="background-color: #C9A34A; color: #0A0A0A;"> PROCEED TO CHECKOUT </button>
+    </div>
+   </div>
+  </div><!-- Quick View Modal -->
+  <div id="quick-view-modal" class="quick-view-modal">
+   <div class="modal-content">
+    <div id="quick-view-content"><!-- Modal content will be inserted here -->
+    </div>
+   </div>
+  </div><!-- Toast Notification -->
+  <div id="toast-notification" class="toast-notification"></div><!-- VIP Card Modal -->
+  <div id="vip-modal" class="quick-view-modal" style="z-index: 2500;">
+   <div class="modal-content max-w-md">
+    <div class="p-8">
+     <div class="flex justify-between items-start mb-6">
+      <div>
+       <h3 class="font-display text-2xl font-bold mb-2" style="color: #C9A34A;">Maison Privilège</h3>
+       <p class="font-body text-sm" style="color: #8B8780;">Exclusive Member Benefits</p>
+      </div><button onclick="closeVipModal()" class="hover:opacity-70 transition-opacity">
+       <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#FAF9F6" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line>
+       </svg></button>
+     </div>
+     <div class="mb-8"><label for="vip-card-input" class="block font-body text-sm font-medium mb-3" style="color: #FAF9F6;">Enter Your Privilège Card Number</label> <input type="text" id="vip-card-input" placeholder="XXXX-XXXX-XXXX" maxlength="14" class="w-full px-4 py-4 font-display text-center text-lg tracking-widest focus:outline-none transition-all" style="background-color: #0A0A0A; color: #C9A34A; border: 1px solid #2a2a2a; border-radius: 4px; letter-spacing: 0.2em;">
+      <p id="vip-error" class="font-body text-xs mt-2 hidden" style="color: #ff6b6b;">Invalid card number</p>
+      <p id="vip-success" class="font-body text-xs mt-2 hidden" style="color: #C9A34A;">✓ Privilège benefits applied</p>
+     </div>
+     <div class="flex gap-3 mb-6"><button onclick="skipVip()" class="flex-1 py-3 rounded-full font-body text-sm font-medium tracking-wider transition-all hover:opacity-80" style="background-color: #2a2a2a; color: #FAF9F6;"> CONTINUE AS GUEST </button> <button onclick="applyVipCard()" class="flex-1 py-3 rounded-full font-body text-sm font-medium tracking-wider gold-glow transition-all hover:opacity-90" style="background-color: #C9A34A; color: #0A0A0A;"> APPLY CARD </button>
+     </div>
+     <div class="text-center pt-6" style="border-top: 1px solid #2a2a2a;">
+      <p class="font-body text-xs mb-2" style="color: #8B8780;">Don't have a Privilège Card?</p><button onclick="showVipRegistration()" class="font-body text-xs font-medium hover:opacity-70 transition-opacity" style="color: #C9A34A;">Request an invitation →</button>
+     </div>
+    </div>
+   </div>
+  </div><!-- VIP Registration Modal -->
+  <div id="vip-registration-modal" class="quick-view-modal" style="z-index: 2500;">
+   <div class="modal-content max-w-2xl">
+    <div class="p-8">
+     <div class="flex justify-between items-start mb-6">
+      <div>
+       <h3 class="font-display text-2xl font-bold mb-2" style="color: #C9A34A;">Apply for Privilège Membership</h3>
+       <p class="font-body text-sm" style="color: #8B8780;">Join our exclusive circle of distinguished members</p>
+      </div><button onclick="closeVipRegistration()" class="hover:opacity-70 transition-opacity">
+       <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#FAF9F6" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line>
+       </svg></button>
+     </div><!-- VIP Benefits Section -->
+     <div class="mb-8 p-6 rounded-lg" style="background-color: #0A0A0A; border: 1px solid #2a2a2a;">
+      <h4 class="font-display text-lg font-bold mb-4" style="color: #C9A34A;">Privilège Benefits</h4>
+      <div class="space-y-3">
+       <div class="flex items-start gap-3">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="2" class="flex-shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <p class="font-body text-sm" style="color: #FAF9F6;"><strong>20% Discount</strong> on all collections</p>
+       </div>
+       <div class="flex items-start gap-3">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="2" class="flex-shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <p class="font-body text-sm" style="color: #FAF9F6;"><strong>Priority Access</strong> to limited editions &amp; new arrivals</p>
+       </div>
+       <div class="flex items-start gap-3">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="2" class="flex-shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <p class="font-body text-sm" style="color: #FAF9F6;"><strong>Personal Stylist</strong> consultation service</p>
+       </div>
+       <div class="flex items-start gap-3">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="2" class="flex-shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <p class="font-body text-sm" style="color: #FAF9F6;"><strong>Exclusive Events</strong> &amp; private shopping experiences</p>
+       </div>
+       <div class="flex items-start gap-3">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="2" class="flex-shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <p class="font-body text-sm" style="color: #FAF9F6;"><strong>Complimentary Alterations</strong> &amp; lifetime care</p>
+       </div>
+      </div>
+     </div><!-- Requirements Section -->
+     <div class="mb-8 p-6 rounded-lg" style="background-color: rgba(201, 163, 74, 0.1); border: 1px solid #C9A34A;">
+      <h4 class="font-display text-lg font-bold mb-4" style="color: #C9A34A;">Membership Requirements</h4>
+      <div class="space-y-2">
+       <p class="font-body text-sm" style="color: #FAF9F6;">• Minimum annual purchase of <strong>Rp 25.000.000</strong></p>
+       <p class="font-body text-sm" style="color: #FAF9F6;">• Valid identification document</p>
+       <p class="font-body text-sm" style="color: #FAF9F6;">• Personal interview with our concierge team</p>
+       <p class="font-body text-sm" style="color: #FAF9F6;">• Annual membership fee: <strong>Rp 5.000.000</strong></p>
+      </div>
+     </div><!-- Registration Form -->
+     <form id="vip-registration-form">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+       <div><label for="vip-first-name" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">First Name *</label> <input type="text" id="vip-first-name" name="vip-first-name" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+       </div>
+       <div><label for="vip-last-name" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Last Name *</label> <input type="text" id="vip-last-name" name="vip-last-name" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+       </div>
+      </div>
+      <div class="mb-4"><label for="vip-email" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Email Address *</label> <input type="email" id="vip-email" name="vip-email" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+      </div>
+      <div class="mb-4"><label for="vip-phone" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Phone Number *</label> <input type="tel" id="vip-phone" name="vip-phone" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+      </div>
+      <div class="mb-4"><label for="vip-address" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Complete Address *</label> <textarea id="vip-address" name="vip-address" rows="2" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px; resize: vertical;"></textarea>
+      </div>
+      <div class="mb-4"><label for="vip-occupation" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Occupation *</label> <input type="text" id="vip-occupation" name="vip-occupation" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+      </div>
+      <div class="mb-6"><label for="vip-message" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Why would you like to join? (Optional)</label> <textarea id="vip-message" name="vip-message" rows="3" class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px; resize: vertical;"></textarea>
+      </div><button type="submit" class="w-full py-4 rounded-full font-body text-sm font-medium tracking-wider gold-glow transition-all hover:opacity-90" style="background-color: #C9A34A; color: #0A0A0A;"> SUBMIT APPLICATION </button>
+     </form>
+     <p class="text-center font-body text-xs mt-4" style="color: #8B8780;">Our concierge team will review your application within 3-5 business days</p>
+    </div>
+   </div>
+  </div>
+  <div id="app" class="w-full" style="background-color: #0A0A0A; color: #FAF9F6;"><!-- Header -->
+   <header id="header" class="w-full fixed top-0 left-0 z-50 transition-all duration-300" style="background-color: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
+    <nav class="w-full px-6 py-4">
+     <div class="flex items-center justify-between max-w-7xl mx-auto"><!-- Mobile Menu Button --> <button id="mobile-menu-btn" class="md:hidden hover:opacity-70 transition-opacity">
+       <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#FAF9F6" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line> <line x1="3" y1="6" x2="21" y2="6"></line> <line x1="3" y1="18" x2="21" y2="18"></line>
+       </svg></button> <!-- Logo -->
+      <div class="flex items-center">
+       <h1 id="brand-name" class="font-display text-2xl font-bold tracking-wider" style="color: #C9A34A;">MAISON AURELYA</h1>
+      </div><!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8"><a href="#collections" class="nav-link font-body text-sm tracking-wide" style="color: #FAF9F6;">Collections</a> <a href="#limited-edition" class="nav-link font-body text-sm tracking-wide" style="color: #FAF9F6;">Limited Edition</a> <a href="#about" class="nav-link font-body text-sm tracking-wide" style="color: #FAF9F6;">About</a> <a href="#appointments" class="nav-link font-body text-sm tracking-wide" style="color: #FAF9F6;">Appointments</a> <a href="#contact" class="nav-link font-body text-sm tracking-wide" style="color: #FAF9F6;">Contact</a>
+      </div><!-- Icons -->
+      <div class="flex items-center space-x-6"><!-- VIP Badge/Button --> <button id="vip-badge" onclick="showVipRegistration()" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full transition-all hover:opacity-90" style="background: linear-gradient(135deg, #C9A34A 0%, #d4b55e 100%);">
+        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+        </svg><span class="font-body text-xs font-bold tracking-wide" style="color: #0A0A0A;">VIP</span> </button> <button class="hover:opacity-70 transition-opacity hidden md:block" aria-label="Search">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#FAF9F6" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path>
+        </svg></button> <button id="account-btn" class="hover:opacity-70 transition-opacity hidden md:block relative" aria-label="Account">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#FAF9F6" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path> <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <div id="vip-dot" class="hidden absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full" style="background-color: #C9A34A;"></div></button> <button id="cart-btn" class="hover:opacity-70 transition-opacity relative" aria-label="Shopping Cart">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#FAF9F6" stroke-width="1.5"><circle cx="9" cy="21" r="1"></circle> <circle cx="20" cy="21" r="1"></circle> <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg><span id="cart-count" class="absolute -top-2 -right-2 w-4 h-4 rounded-full flex items-center justify-center text-xs font-bold" style="background-color: #C9A34A; color: #0A0A0A;">0</span> </button>
+      </div>
+     </div>
+    </nav>
+   </header><!-- Hero Section -->
+   <section class="hero-gradient w-full relative" style="min-height: 100%; padding-top: 80px;">
+    <div class="w-full px-6 py-32 md:py-48">
+     <div class="max-w-7xl mx-auto text-center">
+      <div class="section-divider mx-auto mb-8"></div>
+      <h2 id="hero-tagline" class="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight" style="color: #FAF9F6;">Where Elegance Meets Timelessness</h2>
+      <p class="font-body text-lg md:text-xl mb-12 max-w-2xl mx-auto" style="color: #8B8780;">Discover our curated collection of haute couture and ready-to-wear pieces, crafted for the discerning individual.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center"><a href="#collections" id="hero-cta-btn" class="btn-primary px-8 py-4 rounded-full font-body text-sm font-medium tracking-wider gold-glow" style="background-color: #C9A34A; color: #0A0A0A;"> SHOP THE COLLECTION </a> <a href="#appointments" class="btn-secondary px-8 py-4 rounded-full font-body text-sm font-medium tracking-wider border border-current" style="color: #FAF9F6;"> BOOK PRIVATE APPOINTMENT </a>
+      </div>
+     </div>
+    </div>
+   </section><!-- Collections Preview -->
+   <section id="collections" class="w-full px-6 py-24">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-16">
+      <h3 class="font-display text-3xl md:text-5xl font-bold mb-4" style="color: #C9A34A;">Featured Collections</h3>
+      <div class="section-divider mx-auto mt-6"></div>
+     </div>
+     <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"><!-- Products will be inserted here by JavaScript -->
+     </div>
+    </div>
+   </section><!-- Limited Edition Countdown Section -->
+   <section id="limited-edition" class="w-full px-6 py-24 relative overflow-hidden" style="background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-12">
+      <div class="inline-block px-4 py-2 mb-6 rounded-full" style="background-color: rgba(201, 163, 74, 0.1); border: 1px solid #C9A34A;"><span class="font-body text-xs font-medium tracking-wider" style="color: #C9A34A;">⚡ LIMITED EDITION</span>
+      </div>
+      <h3 class="font-display text-3xl md:text-6xl font-bold mb-4" style="color: #FAF9F6;">Midnight Luxe Collection</h3>
+      <div class="section-divider mx-auto mt-6"></div>
+      <p class="font-body text-lg mt-8 max-w-2xl mx-auto" style="color: #8B8780;">Only 50 pieces available worldwide. Once they're gone, they're gone forever.</p>
+     </div><!-- Countdown Timer -->
+     <div class="max-w-4xl mx-auto mb-16">
+      <p class="text-center font-body text-sm mb-6 tracking-wider" style="color: #C9A34A;">SALE ENDS IN</p>
+      <div class="grid grid-cols-4 gap-4 md:gap-8">
+       <div class="text-center p-6 rounded-lg" style="background-color: rgba(26, 26, 26, 0.8); border: 1px solid #2a2a2a;">
+        <div id="countdown-days" class="font-display text-4xl md:text-6xl font-bold mb-2" style="color: #C9A34A;">
+         00
+        </div>
+        <div class="font-body text-xs tracking-wider" style="color: #8B8780;">
+         DAYS
+        </div>
+       </div>
+       <div class="text-center p-6 rounded-lg" style="background-color: rgba(26, 26, 26, 0.8); border: 1px solid #2a2a2a;">
+        <div id="countdown-hours" class="font-display text-4xl md:text-6xl font-bold mb-2" style="color: #C9A34A;">
+         00
+        </div>
+        <div class="font-body text-xs tracking-wider" style="color: #8B8780;">
+         HOURS
+        </div>
+       </div>
+       <div class="text-center p-6 rounded-lg" style="background-color: rgba(26, 26, 26, 0.8); border: 1px solid #2a2a2a;">
+        <div id="countdown-minutes" class="font-display text-4xl md:text-6xl font-bold mb-2" style="color: #C9A34A;">
+         00
+        </div>
+        <div class="font-body text-xs tracking-wider" style="color: #8B8780;">
+         MINUTES
+        </div>
+       </div>
+       <div class="text-center p-6 rounded-lg" style="background-color: rgba(26, 26, 26, 0.8); border: 1px solid #2a2a2a;">
+        <div id="countdown-seconds" class="font-display text-4xl md:text-6xl font-bold mb-2 countdown-pulse" style="color: #C9A34A;">
+         00
+        </div>
+        <div class="font-body text-xs tracking-wider" style="color: #8B8780;">
+         SECONDS
+        </div>
+       </div>
+      </div>
+     </div><!-- Limited Edition Products -->
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <div class="relative overflow-hidden rounded-lg group" style="background-color: #1a1a1a;">
+       <div class="absolute top-4 right-4 z-10 px-3 py-1 rounded-full text-xs font-bold" style="background-color: #C9A34A; color: #0A0A0A;"><span id="stock-1">12 LEFT</span>
+       </div>
+       <div class="relative" style="padding-bottom: 125%; background-color: #2a2a2a; overflow: hidden;"><img src="https://i.imgur.com/P0TFQjh.jpeg" alt="Silk Ensemble Limited Edition" class="product-image absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none';">
+       </div>
+       <div class="p-6">
+        <h4 class="font-display text-xl font-semibold mb-2" style="color: #FAF9F6;">Silk Ensemble</h4>
+        <p class="font-body text-sm mb-4" style="color: #8B8780;">Limited Edition • Black Gold</p>
+        <div class="flex items-center justify-between">
+         <div><span class="font-display text-2xl font-bold" style="color: #C9A34A;">Rp 5.800.000</span>
+         </div>
+        </div><button onclick="addToCart(5)" class="w-full mt-4 py-3 rounded-full font-body text-xs font-medium tracking-wider gold-glow" style="background-color: #C9A34A; color: #0A0A0A;"> ADD TO CART </button>
+       </div>
+      </div>
+      <div class="relative overflow-hidden rounded-lg group" style="background-color: #1a1a1a;">
+       <div class="absolute top-4 right-4 z-10 px-3 py-1 rounded-full text-xs font-bold" style="background-color: #C9A34A; color: #0A0A0A;"><span id="stock-2">8 LEFT</span>
+       </div>
+       <div class="relative" style="padding-bottom: 125%; background-color: #2a2a2a; overflow: hidden;"><img src="https://i.imgur.com/9i9bn27.jpeg" alt="Golden Hour Gown Limited Edition" class="product-image absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none';">
+       </div>
+       <div class="p-6">
+        <h4 class="font-display text-xl font-semibold mb-2" style="color: #FAF9F6;">Golden Hour Gown</h4>
+        <p class="font-body text-sm mb-4" style="color: #8B8780;">Limited Edition • Midnight Blue</p>
+        <div class="flex items-center justify-between">
+         <div><span class="font-display text-2xl font-bold" style="color: #C9A34A;">Rp 4.890.000</span>
+         </div>
+        </div><button onclick="addToCart(7)" class="w-full mt-4 py-3 rounded-full font-body text-xs font-medium tracking-wider gold-glow" style="background-color: #C9A34A; color: #0A0A0A;"> ADD TO CART </button>
+       </div>
+      </div>
+      <div class="relative overflow-hidden rounded-lg group" style="background-color: #1a1a1a;">
+       <div class="absolute top-4 right-4 z-10 px-3 py-1 rounded-full text-xs font-bold" style="background-color: #C9A34A; color: #0A0A0A;"><span id="stock-3">5 LEFT</span>
+       </div>
+       <div class="relative" style="padding-bottom: 125%; background-color: #2a2a2a; overflow: hidden;"><img src="https://i.imgur.com/PjbHp9z.jpeg" alt="Elegant Ensemble Limited Edition" class="product-image absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none';">
+       </div>
+       <div class="p-6">
+        <h4 class="font-display text-xl font-semibold mb-2" style="color: #FAF9F6;">Elegant Ensemble</h4>
+        <p class="font-body text-sm mb-4" style="color: #8B8780;">Limited Edition • Champagne</p>
+        <div class="flex items-center justify-between">
+         <div><span class="font-display text-2xl font-bold" style="color: #C9A34A;">Rp 4.750.000</span>
+         </div>
+        </div><button onclick="addToCart(10)" class="w-full mt-4 py-3 rounded-full font-body text-xs font-medium tracking-wider gold-glow" style="background-color: #C9A34A; color: #0A0A0A;"> ADD TO CART </button>
+       </div>
+      </div>
+     </div><!-- Progress Bar -->
+     <div class="max-w-2xl mx-auto">
+      <div class="flex justify-between items-center mb-3"><span class="font-body text-sm" style="color: #FAF9F6;">Collection Progress</span> <span class="font-body text-sm font-bold" style="color: #C9A34A;"><span id="sold-count">25</span>/50 Sold</span>
+      </div>
+      <div class="w-full h-3 rounded-full overflow-hidden" style="background-color: #2a2a2a;">
+       <div id="progress-bar" class="h-full rounded-full transition-all duration-500" style="background: linear-gradient(90deg, #C9A34A 0%, #d4b55e 100%); width: 50%;"></div>
+      </div>
+      <p class="text-center font-body text-xs mt-3" style="color: #8B8780;">Hurry! Only 25 pieces remaining</p>
+     </div>
+    </div>
+   </section><!-- About Section -->
+   <section id="about" class="w-full px-6 py-24">
+    <div class="max-w-5xl mx-auto text-center">
+     <h3 id="about-title" class="font-display text-3xl md:text-5xl font-bold mb-8" style="color: #C9A34A;">The Atelier</h3>
+     <div class="section-divider mx-auto mb-12"></div>
+     <p class="font-body text-lg md:text-xl leading-relaxed mb-8" style="color: #FAF9F6;">At Maison Aurelia, we believe that luxury is not just about the garment—it's about the experience. Each piece is meticulously crafted by master artisans, combining traditional savoir-faire with contemporary design.</p>
+     <p class="font-body text-base md:text-lg leading-relaxed" style="color: #8B8780;">From our atelier to your wardrobe, every stitch tells a story of elegance, precision, and timeless beauty.</p>
+    </div>
+   </section><!-- Appointments Section -->
+   <section id="appointments" class="w-full px-6 py-24" style="background-color: #0f0f0f;">
+    <div class="max-w-4xl mx-auto">
+     <div class="text-center mb-16">
+      <h3 class="font-display text-3xl md:text-5xl font-bold mb-4" style="color: #FAF9F6;">Private Shopping Experience</h3>
+      <div class="section-divider mx-auto mt-6"></div>
+      <p class="font-body text-lg mt-8" style="color: #8B8780;">Book an exclusive appointment with our style consultants</p>
+     </div>
+     <form id="appointment-form" class="w-full p-8 md:p-12" style="background-color: #1a1a1a; border-radius: 4px;">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+       <div><label for="first-name" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">First Name</label> <input type="text" id="first-name" name="first-name" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+       </div>
+       <div><label for="last-name" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Last Name</label> <input type="text" id="last-name" name="last-name" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+       </div>
+      </div>
+      <div class="mb-6"><label for="email" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Email Address</label> <input type="email" id="email" name="email" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+      </div>
+      <div class="mb-6"><label for="phone" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Phone Number</label> <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+      </div>
+      <div class="mb-6"><label for="preferred-date" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Preferred Date</label> <input type="date" id="preferred-date" name="preferred-date" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+      </div>
+      <div class="mb-8"><label for="message" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Special Requests</label> <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px; resize: vertical;"></textarea>
+      </div><button type="submit" class="btn-primary w-full py-4 rounded-full font-body text-sm font-medium tracking-wider gold-glow" style="background-color: #C9A34A; color: #0A0A0A;"> REQUEST APPOINTMENT </button>
+     </form>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contact" class="w-full px-6 py-24">
+    <div class="max-w-4xl mx-auto">
+     <div class="text-center mb-16">
+      <h3 class="font-display text-3xl md:text-5xl font-bold mb-4" style="color: #C9A34A;">Get In Touch</h3>
+      <div class="section-divider mx-auto mt-6"></div>
+     </div>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <div class="text-center">
+       <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background-color: #1a1a1a;">
+        <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path> <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+       </div>
+       <h4 class="font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Visit Us</h4>
+       <p class="font-body text-sm" style="color: #8B8780;">123 Luxury Avenue<br>
+        Paris, France</p>
+      </div>
+      <div class="text-center">
+       <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background-color: #1a1a1a;">
+        <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+       </div>
+       <h4 class="font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Call Us</h4>
+       <p class="font-body text-sm" style="color: #8B8780;">+33 1 23 45 67 89</p>
+      </div>
+      <div class="text-center">
+       <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background-color: #1a1a1a;">
+        <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path> <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+       </div>
+       <h4 class="font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Email Us</h4>
+       <p class="font-body text-sm" style="color: #8B8780;">contact@maisonaurelya.com</p>
+      </div>
+     </div>
+     <form id="contact-form" class="w-full p-8 md:p-12" style="background-color: #1a1a1a; border-radius: 4px;">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+       <div><label for="contact-name" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Name</label> <input type="text" id="contact-name" name="contact-name" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+       </div>
+       <div><label for="contact-email" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Email</label> <input type="email" id="contact-email" name="contact-email" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;">
+       </div>
+      </div>
+      <div class="mb-6"><label for="subject" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Subject</label> <select id="subject" name="subject" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px;"> <option value="">Select a subject</option> <option value="general">General Inquiry</option> <option value="order">Order Status</option> <option value="custom">Custom Request</option> <option value="feedback">Feedback</option> </select>
+      </div>
+      <div class="mb-8"><label for="contact-message" class="block font-body text-sm font-medium mb-2" style="color: #FAF9F6;">Message</label> <textarea id="contact-message" name="contact-message" rows="5" required class="w-full px-4 py-3 font-body text-sm focus:outline-none transition-all" style="background-color: #0A0A0A; color: #FAF9F6; border: 1px solid #2a2a2a; border-radius: 2px; resize: vertical;"></textarea>
+      </div><button type="submit" class="btn-primary w-full py-4 rounded-full font-body text-sm font-medium tracking-wider gold-glow" style="background-color: #C9A34A; color: #0A0A0A;"> SEND MESSAGE </button>
+     </form>
+    </div>
+   </section><!-- Footer -->
+   <footer class="w-full px-6 py-16" style="background-color: #0A0A0A; border-top: 1px solid #1a1a1a;">
+    <div class="max-w-7xl mx-auto">
+     <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+      <div>
+       <h4 class="font-display text-xl font-bold mb-4" style="color: #C9A34A;">About</h4>
+       <ul class="space-y-2">
+        <li><a href="#" class="font-body text-sm hover:opacity-70 transition-opacity" style="color: #8B8780;">Our Story</a></li>
+        <li><a href="#" class="font-body text-sm hover:opacity-70 transition-opacity" style="color: #8B8780;">Craftsmanship</a></li>
+        <li><a href="#" class="font-body text-sm hover:opacity-70 transition-opacity" style="color: #8B8780;">Sustainability</a></li>
+       </ul>
+      </div>
+      <div>
+       <h4 class="font-display text-xl font-bold mb-4" style="color: #C9A34A;">Shop</h4>
+       <ul class="space-y-2">
+        <li><a href="#" class="font-body text-sm hover:opacity-70 transition-opacity" style="color: #8B8780;">New Arrivals</a></li>
+        <li><a href="#" class="font-body text-sm hover:opacity-70 transition-opacity" style="color: #8B8780;">Collections</a></li>
+        <li><a href="#" class="font-body text-sm hover:opacity-70 transition-opacity" style="color: #8B8780;">Accessories</a></li>
+       </ul>
+      </div>
+      <div>
+       <h4 class="font-display text-xl font-bold mb-4" style="color: #C9A34A;">Services</h4>
+       <ul class="space-y-2">
+        <li><a href="#" class="font-body text-sm hover:opacity-70 transition-opacity" style="color: #8B8780;">Private Shopping</a></li>
+        <li><a href="#" class="font-body text-sm hover:opacity-70 transition-opacity" style="color: #8B8780;">Custom Orders</a></li>
+        <li><a href="#" class="font-body text-sm hover:opacity-70 transition-opacity" style="color: #8B8780;">Shipping &amp; Returns</a></li>
+       </ul>
+      </div>
+      <div>
+       <h4 class="font-display text-xl font-bold mb-4" style="color: #C9A34A;">Connect</h4>
+       <div class="flex space-x-4 mb-6"><a href="#" class="hover:opacity-70 transition-opacity" aria-label="Instagram">
+         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#8B8780" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect> <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path> <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+         </svg></a> <a href="#" class="hover:opacity-70 transition-opacity" aria-label="Facebook">
+         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#8B8780" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+         </svg></a>
+       </div>
+       <p id="footer-tagline" class="font-body text-sm" style="color: #8B8780;">Crafting Luxury Since 2024</p>
+      </div>
+     </div>
+     <div class="w-full pt-8 text-center" style="border-top: 1px solid #1a1a1a;">
+      <p class="font-body text-xs" style="color: #8B8780;">© 2024 Maison Aurelya. All rights reserved.</p>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+        // Product Data
+        const products = [
+            {
+                id: 11,
+                name: 'Royal Collection',
+                category: 'Premium Collection',
+                price: 3850000,
+                image: 'https://i.imgur.com/tD7AFtx.jpeg',
+                description: 'Exquisite premium piece with elegant design.',
+                rating: 5,
+                reviews: 9
+            },
+            {
+                id: 9,
+                name: 'Azalea Elegance',
+                category: 'Evening Collection',
+                price: 3290000,
+                image: 'https://i.imgur.com/BYkj0j3.jpeg',
+                description: 'Sophisticated evening wear with refined details.',
+                rating: 5,
+                reviews: 7
+            },
+            {
+                id: 2,
+                name: 'Noir Élégance',
+                category: 'Evening Wear',
+                price: 4250000,
+                image: 'https://i.imgur.com/HNt13yK.jpeg',
+                description: 'Sophisticated evening gown perfect for special occasions.',
+                rating: 5,
+                reviews: 8
+            },
+            {
+                id: 3,
+                name: 'Aurelia Blazer',
+                category: 'Ready-to-Wear',
+                price: 3275000,
+                image: 'https://i.imgur.com/JhGyk9A.jpeg',
+                description: 'Classic tailored blazer with modern silhouette.',
+                rating: 4,
+                reviews: 15
+            },
+            {
+                id: 4,
+                name: 'Lumière Dress',
+                category: 'Cocktail',
+                price: 2950000,
+                image: 'https://i.imgur.com/f2PmD3K.jpeg',
+                description: 'Stunning cocktail dress with delicate embellishments.',
+                rating: 5,
+                reviews: 10
+            },
+            {
+                id: 6,
+                name: 'Chic Casual Set',
+                category: 'Casual Luxury',
+                price: 1980000,
+                image: 'https://i.imgur.com/43dzpF4.jpeg',
+                description: 'Effortlessly elegant casual wear for everyday luxury.',
+                rating: 4,
+                reviews: 20
+            },
+            {
+                id: 7,
+                name: 'Golden Hour Gown',
+                category: 'Evening Wear',
+                price: 4890000,
+                image: 'https://i.imgur.com/9i9bn27.jpeg',
+                description: 'Breathtaking evening gown with gold accents.',
+                rating: 5,
+                reviews: 9
+            },
+            {
+                id: 12,
+                name: 'Luxe Evening Collection',
+                category: 'Evening Wear',
+                price: 3750000,
+                image: 'https://i.imgur.com/qrbJXR1.jpeg',
+                description: 'Stunning evening ensemble with sophisticated details.',
+                rating: 5,
+                reviews: 8
+            },
+            {
+                id: 10,
+                name: 'Elegant Ensemble',
+                category: 'Premium Collection',
+                price: 4750000,
+                image: 'https://i.imgur.com/PjbHp9z.jpeg',
+                description: 'Sophisticated premium piece with refined elegance.',
+                rating: 5,
+                reviews: 11
+            },
+            {
+                id: 1,
+                name: 'azkdlyn1',
+                category: 'Premium Collection',
+                price: 2425000,
+                image: 'https://i.imgur.com/OG8dKLS.jpeg',
+                description: 'Elegant haute couture piece featuring exquisite craftsmanship and timeless design.',
+                rating: 5,
+                reviews: 12
+            },
+            {
+                id: 5,
+                name: 'Silk Ensemble',
+                category: 'Haute Couture',
+                price: 5800000,
+                image: 'https://i.imgur.com/P0TFQjh.jpeg',
+                description: 'Luxurious silk ensemble handcrafted by master artisans.',
+                rating: 5,
+                reviews: 6
+            }
+        ];
+
+        // Shopping Cart
+        let cart = [];
+        let isVipMember = false;
+        let vipMemberData = null;
+
+        // Valid VIP card numbers (for demo purposes)
+        const validVipCards = [
+            '1234-5678-9012',
+            '9999-8888-7777',
+            'AUREL-GOLD-001',
+            'PRIV-2024-VIP'
+        ];
+
+        // VIP Modal Functions
+        function showVipModal() {
+            document.getElementById('vip-modal').classList.add('active');
+            document.getElementById('vip-card-input').value = '';
+            document.getElementById('vip-error').classList.add('hidden');
+            document.getElementById('vip-success').classList.add('hidden');
+        }
+
+        function closeVipModal() {
+            document.getElementById('vip-modal').classList.remove('active');
+        }
+
+        function showVipRegistration() {
+            closeVipModal();
+            document.getElementById('vip-registration-modal').classList.add('active');
+        }
+
+        function closeVipRegistration() {
+            document.getElementById('vip-registration-modal').classList.remove('active');
+        }
+
+        function formatCardNumber(input) {
+            let value = input.value.replace(/[^A-Za-z0-9]/g, '');
+            let formatted = '';
+            for (let i = 0; i < value.length && i < 12; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formatted += '-';
+                }
+                formatted += value[i];
+            }
+            input.value = formatted.toUpperCase();
+        }
+
+        function validateVipCard(cardNumber) {
+            const normalized = cardNumber.replace(/-/g, '').toUpperCase();
+            return validVipCards.some(card => card.replace(/-/g, '').toUpperCase() === normalized);
+        }
+
+        function applyVipCard() {
+            const cardInput = document.getElementById('vip-card-input');
+            const cardNumber = cardInput.value.trim();
+            const errorMsg = document.getElementById('vip-error');
+            const successMsg = document.getElementById('vip-success');
+
+            errorMsg.classList.add('hidden');
+            successMsg.classList.add('hidden');
+
+            if (!cardNumber) {
+                errorMsg.textContent = 'Please enter your card number';
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            if (validateVipCard(cardNumber)) {
+                isVipMember = true;
+                vipMemberData = { cardNumber: cardNumber };
+                
+                localStorage.setItem('maisonAurelyaVIP', JSON.stringify({ isVip: true, data: vipMemberData }));
+
+                successMsg.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    closeVipModal();
+                    updateVipBadge();
+                    showToast('Privilège benefits activated ✨');
+                    
+                    // Add pending product if exists
+                    if (window.pendingProductId) {
+                        const productId = window.pendingProductId;
+                        window.pendingProductId = null;
+                        setTimeout(() => addToCart(productId), 300);
+                    }
+                    
+                    updateCart();
+                }, 800);
+            } else {
+                errorMsg.textContent = 'Invalid card number. Please check and try again.';
+                errorMsg.classList.remove('hidden');
+                cardInput.style.borderColor = '#ff6b6b';
+                setTimeout(() => {
+                    cardInput.style.borderColor = '#2a2a2a';
+                }, 2000);
+            }
+        }
+
+        function skipVip() {
+            closeVipModal();
+            
+            if (window.pendingProductId) {
+                const productId = window.pendingProductId;
+                window.pendingProductId = null;
+                setTimeout(() => addToCart(productId), 100);
+            }
+        }
+
+        function applyVipFromCart() {
+            const cartInput = document.getElementById('cart-vip-input');
+            const cardNumber = cartInput.value.trim();
+
+            if (!cardNumber) {
+                showToast('Please enter your Privilège card number');
+                return;
+            }
+
+            if (validateVipCard(cardNumber)) {
+                isVipMember = true;
+                vipMemberData = { cardNumber: cardNumber };
+                
+                localStorage.setItem('maisonAurelyaVIP', JSON.stringify({ isVip: true, data: vipMemberData }));
+                
+                updateVipBadge();
+                document.getElementById('vip-status-badge').classList.remove('hidden');
+                cartInput.disabled = true;
+                cartInput.style.opacity = '0.6';
+                
+                showToast('Privilège benefits activated ✨');
+                updateCart();
+            } else {
+                showToast('Invalid card number');
+                cartInput.style.borderColor = '#ff6b6b';
+                setTimeout(() => {
+                    cartInput.style.borderColor = '#2a2a2a';
+                }, 2000);
+            }
+        }
+
+        // Auto-format card number on input
+        document.addEventListener('DOMContentLoaded', function() {
+            const vipCardInput = document.getElementById('vip-card-input');
+            const cartVipInput = document.getElementById('cart-vip-input');
+            
+            if (vipCardInput) {
+                vipCardInput.addEventListener('input', function() {
+                    formatCardNumber(this);
+                });
+            }
+            
+            if (cartVipInput) {
+                cartVipInput.addEventListener('input', function() {
+                    formatCardNumber(this);
+                });
+            }
+        });
+
+        // Check VIP status on load
+        function checkVipStatus() {
+            const vipData = localStorage.getItem('maisonAurelyaVIP');
+            if (vipData) {
+                const parsed = JSON.parse(vipData);
+                isVipMember = parsed.isVip;
+                vipMemberData = parsed.data;
+                updateVipBadge();
+                
+                // Update cart VIP section if already VIP
+                const cartVipInput = document.getElementById('cart-vip-input');
+                const vipStatusBadge = document.getElementById('vip-status-badge');
+                if (cartVipInput && isVipMember && vipMemberData.cardNumber) {
+                    cartVipInput.value = vipMemberData.cardNumber;
+                    cartVipInput.disabled = true;
+                    cartVipInput.style.opacity = '0.6';
+                    if (vipStatusBadge) {
+                        vipStatusBadge.classList.remove('hidden');
+                    }
+                }
+            }
+        }
+
+        // Update VIP badge visibility
+        function updateVipBadge() {
+            const vipBadge = document.getElementById('vip-badge');
+            const vipDot = document.getElementById('vip-dot');
+            const mobileVipBtn = document.getElementById('mobile-vip-btn');
+            
+            if (isVipMember) {
+                vipBadge.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                    <span class="font-body text-xs font-bold tracking-wide" style="color: #0A0A0A;">MEMBER</span>
+                `;
+                vipBadge.onclick = null;
+                vipBadge.style.cursor = 'default';
+                vipDot.classList.remove('hidden');
+                
+                if (mobileVipBtn) {
+                    mobileVipBtn.innerHTML = `
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                        </svg>
+                        <span class="font-body text-sm font-bold tracking-wide" style="color: #0A0A0A;">VIP Member ✓</span>
+                    `;
+                    mobileVipBtn.onclick = null;
+                    mobileVipBtn.style.cursor = 'default';
+                    mobileVipBtn.style.opacity = '0.8';
+                }
+            } else {
+                vipBadge.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                    <span class="font-body text-xs font-bold tracking-wide" style="color: #0A0A0A;">VIP</span>
+                `;
+                vipBadge.onclick = showVipRegistration;
+                vipBadge.style.cursor = 'pointer';
+                vipDot.classList.add('hidden');
+                
+                if (mobileVipBtn) {
+                    mobileVipBtn.innerHTML = `
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                        </svg>
+                        <span class="font-body text-sm font-bold tracking-wide" style="color: #0A0A0A;">Become VIP Member</span>
+                    `;
+                    mobileVipBtn.onclick = function() {
+                        showVipRegistration();
+                        document.getElementById('mobile-menu').classList.remove('active');
+                        document.getElementById('cart-overlay').classList.remove('active');
+                    };
+                    mobileVipBtn.style.cursor = 'pointer';
+                    mobileVipBtn.style.opacity = '1';
+                }
+            }
+        }
+
+        // Calculate price with VIP discount
+        function calculatePrice(price) {
+            if (isVipMember) {
+                return price * 0.8; // 20% discount
+            }
+            return price;
+        }
+
+        // Countdown Timer
+        function startCountdown() {
+            const endDate = new Date();
+            endDate.setDate(endDate.getDate() + 7); // 7 days from now
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = endDate - now;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('countdown-days').textContent = String(days).padStart(2, '0');
+                document.getElementById('countdown-hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('countdown-minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('countdown-seconds').textContent = String(seconds).padStart(2, '0');
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdown-days').textContent = '00';
+                    document.getElementById('countdown-hours').textContent = '00';
+                    document.getElementById('countdown-minutes').textContent = '00';
+                    document.getElementById('countdown-seconds').textContent = '00';
+                }
+            }
+
+            updateCountdown();
+            const countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return 'Rp ' + amount.toLocaleString('id-ID');
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Render products
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = products.map(product => `
+                <div class="product-card" style="background-color: #1a1a1a; border-radius: 4px; overflow: hidden;">
+                    <div class="w-full relative" style="padding-bottom: 125%; background-color: #2a2a2a; overflow: hidden;">
+                        ${product.image ? `
+                            <img src="${product.image}" 
+                                 alt="${product.name}" 
+                                 class="product-image absolute inset-0 w-full h-full object-cover"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        ` : ''}
+                        <div class="absolute inset-0 flex items-center justify-center" style="display: ${product.image ? 'none' : 'flex'};">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="1">
+                                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                                <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            ${Array(5).fill(0).map((_, i) => `
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="${i < product.rating ? '#C9A34A' : 'none'}" stroke="#C9A34A" stroke-width="2">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                </svg>
+                            `).join('')}
+                            <span class="ml-2 font-body text-xs" style="color: #8B8780;">(${product.reviews})</span>
+                        </div>
+                        <h4 class="font-display text-xl font-semibold mb-2" style="color: #FAF9F6;">${product.name}</h4>
+                        <p class="font-body text-sm mb-3" style="color: #8B8780;">${product.category}</p>
+                        <p class="font-display text-lg font-semibold mb-4" style="color: #C9A34A;">${formatCurrency(product.price)}</p>
+                        <div class="flex gap-2">
+                            <button onclick="addToCart(${product.id})" class="flex-1 py-3 rounded font-body text-xs font-medium tracking-wider transition-all hover:opacity-90" style="background-color: #C9A34A; color: #0A0A0A;">
+                                ADD TO CART
+                            </button>
+                            <button onclick="quickView(${product.id})" class="px-4 py-3 rounded font-body text-xs transition-all hover:opacity-70" style="border: 1px solid #C9A34A; color: #C9A34A;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Quick View
+        function quickView(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const modal = document.getElementById('quick-view-modal');
+            const content = document.getElementById('quick-view-content');
+
+            content.innerHTML = `
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="font-display text-3xl font-bold" style="color: #C9A34A;">${product.name}</h3>
+                        <button onclick="closeQuickView()" class="hover:opacity-70 transition-opacity">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FAF9F6" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="relative" style="padding-bottom: 125%; background-color: #2a2a2a; border-radius: 4px; overflow: hidden;">
+                            ${product.image ? `
+                                <img src="${product.image}" 
+                                     alt="${product.name}" 
+                                     class="absolute inset-0 w-full h-full object-cover"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            ` : ''}
+                            <div class="absolute inset-0 flex items-center justify-center" style="display: ${product.image ? 'none' : 'flex'};">
+                                <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="1">
+                                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <p class="font-body text-sm mb-4" style="color: #8B8780;">${product.category}</p>
+                            <div class="flex items-center mb-4">
+                                ${Array(5).fill(0).map((_, i) => `
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="${i < product.rating ? '#C9A34A' : 'none'}" stroke="#C9A34A" stroke-width="2">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                `).join('')}
+                                <span class="ml-2 font-body text-sm" style="color: #8B8780;">${product.reviews} reviews</span>
+                            </div>
+                            <p class="font-display text-3xl font-bold mb-6" style="color: #C9A34A;">${formatCurrency(product.price)}</p>
+                            <p class="font-body text-base leading-relaxed mb-8" style="color: #FAF9F6;">${product.description}</p>
+                            
+                            <button onclick="addToCart(${product.id}); closeQuickView();" class="w-full py-4 rounded-full font-body text-sm font-medium tracking-wider gold-glow" style="background-color: #C9A34A; color: #0A0A0A;">
+                                ADD TO CART
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+        }
+
+        function closeQuickView() {
+            document.getElementById('quick-view-modal').classList.remove('active');
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCart();
+            
+            const finalPrice = calculatePrice(product.price);
+            const discountText = isVipMember ? ' (Harga VIP -20%!)' : '';
+            showToast(`${product.name} ditambahkan ke cart!${discountText}`);
+        }
+
+        // Remove from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+            showToast('Item removed from cart');
+        }
+
+        // Update quantity
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+
+            item.quantity += change;
+            
+            if (item.quantity <= 0) {
+                removeFromCart(productId);
+            } else {
+                updateCart();
+            }
+        }
+
+        // Update cart display
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartEmpty = document.getElementById('cart-empty');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (calculatePrice(item.price) * item.quantity), 0);
+
+            cartCount.textContent = totalItems;
+            cartTotal.textContent = formatCurrency(totalPrice);
+
+            if (cart.length === 0) {
+                cartItems.style.display = 'none';
+                cartEmpty.style.display = 'block';
+            } else {
+                cartItems.style.display = 'block';
+                cartEmpty.style.display = 'none';
+                
+                cartItems.innerHTML = cart.map(item => {
+                    const finalPrice = calculatePrice(item.price);
+                    const hasDiscount = isVipMember && finalPrice < item.price;
+                    
+                    return `
+                    <div class="flex gap-4 p-4" style="background-color: #1a1a1a; border-radius: 4px;">
+                        <div class="w-20 h-20 flex-shrink-0" style="background-color: #2a2a2a; border-radius: 4px; overflow: hidden;">
+                            ${item.image ? `
+                                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" onerror="this.style.display='none';">
+                            ` : `
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C9A34A" stroke-width="1">
+                                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                                    </svg>
+                                </div>
+                            `}
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-display text-base font-semibold mb-1" style="color: #FAF9F6;">${item.name}</h4>
+                            <p class="font-body text-xs mb-2" style="color: #8B8780;">${item.category}</p>
+                            ${hasDiscount ? `
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-body text-xs line-through" style="color: #8B8780;">${formatCurrency(item.price)}</span>
+                                    <span class="font-body text-xs px-2 py-0.5 rounded" style="background-color: #C9A34A; color: #0A0A0A;">VIP -20%</span>
+                                </div>
+                            ` : ''}
+                            <p class="font-body text-sm font-semibold" style="color: #C9A34A;">${formatCurrency(finalPrice)}</p>
+                        </div>
+                        <div class="flex flex-col justify-between items-end">
+                            <button onclick="removeFromCart(${item.id})" class="hover:opacity-70 transition-opacity">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B8780" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                            <div class="flex items-center gap-2">
+                                <button onclick="updateQuantity(${item.id}, -1)" class="w-6 h-6 flex items-center justify-center rounded" style="background-color: #0A0A0A; color: #FAF9F6;">-</button>
+                                <span class="font-body text-sm w-8 text-center" style="color: #FAF9F6;">${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.id}, 1)" class="w-6 h-6 flex items-center justify-center rounded" style="background-color: #0A0A0A; color: #FAF9F6;">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }).join('');
+            }
+        }
+
+        // Cart toggle
+        document.getElementById('cart-btn').addEventListener('click', () => {
+            document.getElementById('cart-sidebar').classList.add('active');
+            document.getElementById('cart-overlay').classList.add('active');
+        });
+
+        document.getElementById('close-cart').addEventListener('click', () => {
+            document.getElementById('cart-sidebar').classList.remove('active');
+            document.getElementById('cart-overlay').classList.remove('active');
+        });
+
+        document.getElementById('cart-overlay').addEventListener('click', () => {
+            document.getElementById('cart-sidebar').classList.remove('active');
+            document.getElementById('cart-overlay').classList.remove('active');
+            closeQuickView();
+            document.getElementById('mobile-menu').classList.remove('active');
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.add('active');
+            document.getElementById('cart-overlay').classList.add('active');
+        });
+
+        document.getElementById('close-mobile-menu').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.remove('active');
+            document.getElementById('cart-overlay').classList.remove('active');
+        });
+
+        // Checkout
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            if (cart.length === 0) {
+                showToast('Your cart is empty');
+                return;
+            }
+            
+            showToast('Proceeding to checkout... (Demo)');
+        });
+
+        // Forms
+        document.getElementById('appointment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showToast('Appointment request received! We will contact you shortly.');
+            e.target.reset();
+        });
+
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showToast('Message sent successfully! We will respond within 24 hours.');
+            e.target.reset();
+        });
+
+        document.getElementById('vip-registration-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showToast('VIP application submitted! Our team will contact you within 3-5 business days.');
+            e.target.reset();
+            closeVipRegistration();
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.getElementById('mobile-menu').classList.remove('active');
+                    document.getElementById('cart-overlay').classList.remove('active');
+                }
+            });
+        });
+
+        // Header scroll effect
+        let lastScrollY = window.scrollY;
+        const header = document.getElementById('header');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.style.padding = '12px 0';
+            } else {
+                header.style.padding = '16px 0';
+            }
+        });
+
+        // Config management
+        const defaultConfig = {
+            brand_name: 'MAISON AURELYA',
+            tagline: 'Where Elegance Meets Timelessness',
+            hero_cta: 'SHOP THE COLLECTION',
+            about_title: 'The Atelier',
+            footer_tagline: 'Crafting Luxury Since 2024',
+            background_color: '#0A0A0A',
+            surface_color: '#1a1a1a',
+            text_color: '#FAF9F6',
+            accent_color: '#C9A34A',
+            secondary_text_color: '#8B8780',
+            font_family: 'Playfair Display',
+            font_size: 16
+        };
+
+        async function onConfigChange(config) {
+            const brandName = config.brand_name || defaultConfig.brand_name;
+            const tagline = config.tagline || defaultConfig.tagline;
+            const heroCta = config.hero_cta || defaultConfig.hero_cta;
+            const aboutTitle = config.about_title || defaultConfig.about_title;
+            const footerTagline = config.footer_tagline || defaultConfig.footer_tagline;
+            const fontFamily = config.font_family || defaultConfig.font_family;
+            const baseFontSize = config.font_size || defaultConfig.font_size;
+
+            document.getElementById('brand-name').textContent = brandName;
+            document.getElementById('hero-tagline').textContent = tagline;
+            document.getElementById('hero-cta-btn').textContent = heroCta;
+            document.getElementById('about-title').textContent = aboutTitle;
+            document.getElementById('footer-tagline').textContent = footerTagline;
+
+            const customFont = fontFamily;
+            const baseFontStack = 'serif';
+
+            document.getElementById('brand-name').style.fontFamily = `${customFont}, ${baseFontStack}`;
+            document.getElementById('hero-tagline').style.fontFamily = `${customFont}, ${baseFontStack}`;
+            document.getElementById('about-title').style.fontFamily = `${customFont}, ${baseFontStack}`;
+
+            document.getElementById('hero-tagline').style.fontSize = `${baseFontSize * 3}px`;
+            document.getElementById('about-title').style.fontSize = `${baseFontSize * 2.5}px`;
+            document.body.style.fontSize = `${baseFontSize}px`;
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [
+                        {
+                            get: () => config.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                config.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.surface_color || defaultConfig.surface_color,
+                            set: (value) => {
+                                config.surface_color = value;
+                                window.elementSdk.setConfig({ surface_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.text_color || defaultConfig.text_color,
+                            set: (value) => {
+                                config.text_color = value;
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.accent_color || defaultConfig.accent_color,
+                            set: (value) => {
+                                config.accent_color = value;
+                                window.elementSdk.setConfig({ accent_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.secondary_text_color || defaultConfig.secondary_text_color,
+                            set: (value) => {
+                                config.secondary_text_color = value;
+                                window.elementSdk.setConfig({ secondary_text_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: {
+                        get: () => config.font_family || defaultConfig.font_family,
+                        set: (value) => {
+                            config.font_family = value;
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    },
+                    fontSizeable: {
+                        get: () => config.font_size || defaultConfig.font_size,
+                        set: (value) => {
+                            config.font_size = value;
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ['brand_name', config.brand_name || defaultConfig.brand_name],
+                    ['tagline', config.tagline || defaultConfig.tagline],
+                    ['hero_cta', config.hero_cta || defaultConfig.hero_cta],
+                    ['about_title', config.about_title || defaultConfig.about_title],
+                    ['footer_tagline', config.footer_tagline || defaultConfig.footer_tagline]
+                ])
+            });
+        }
+
+        // Initialize
+        checkVipStatus();
+        renderProducts();
+        updateCart();
+        startCountdown();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7b8daaf7386ba5',t:'MTc2NDY4NjE1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
